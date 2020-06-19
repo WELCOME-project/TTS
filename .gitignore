@@ -1,0 +1,10 @@
+.idea
+.vscode/
+.DS_Store
+venv/
+
+**/__pycache__/
+
+*.tar.gz
+
+models/

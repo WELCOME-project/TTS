@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+
+    text2speech:
+        build: .
+        volumes:
+            - ./models:/models
+        ports:
+            - "4300:80"
+            
