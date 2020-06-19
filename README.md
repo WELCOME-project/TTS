@@ -23,6 +23,8 @@ BUILD AND RUN INSTRUCTIONS
 --------------------------
 - How to buil and run this dockerfile from terminal:
 
+(Step 0: Download the models from [here](https://github.com/rcarlini-upf/ingenious/releases/download/v0.0.1-prealpha/text2speech.resources.tar.gz) )
+
 1) Change the directory to this: tts_docker
 
 2) Build the image:
