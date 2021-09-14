@@ -1,8 +1,16 @@
 version: '3.2'
 services:
 
-    text2speech:
-        build: .
+    tts-wrapper:
+        build: tts-wrapper/
+        command: /start-reload.sh
+        volumes:
+            - ./tts-wrapper/app:/app
+        ports: 
+            - "4100:80"
+
+    tacotron2:
+        build: tacotron2/
         volumes:
             - ./models:/models
         ports:
