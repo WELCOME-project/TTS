@@ -4,7 +4,10 @@ import traceback
 import requests
 import soundfile as sf
 import numpy as np
+import hashlib
+import os
 
+from pathlib import Path
 from starlette.responses import StreamingResponse
 from starlette.responses import Response
 from fastapi import FastAPI, Request, Form, File, UploadFile, HTTPException
@@ -17,6 +20,10 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
+
+CACHE_DIR = None
+if ("CACHE_DIR" in os.environ):
+    CACHE_DIR = os.environ["CACHE_DIR"]
 
 def manage_exception(module_name, exc):
     logger.exception(module_name + " error")
@@ -75,15 +82,22 @@ def synthesize_text(text2speech_url, text: str, language: str = "en"):
         for chunk in chunks:
             print("chunk:")
             print(chunk)
+            md5 = hashlib.md5((language+":"+chunk).encode('utf-8')).hexdigest()
+            audio_bytes = None
+            if CACHE_DIR is not None and os.path.isfile(os.path.join(CACHE_DIR,md5)):
+                audio_bytes = BytesIO(Path(os.path.join(CACHE_DIR,md5)).read_bytes())
+            else:
+                req = requests.get(text2speech_url, params={"text": chunk})
+                if req.status_code != 200:
+                    raise Exception(f"Error thrown by the component ({req.status_code})! Chunk: {chunk}")
+                print("got response from TTS")
 
-            req = requests.get(text2speech_url, params={"text": chunk})
-            if req.status_code != 200:
-                raise Exception(f"Error thrown by the component ({req.status_code})! Chunk: {chunk}")
-            print("got response from TTS")
-
-            if headers is None:
-                headers= req.headers
-            audio_bytes = BytesIO(req.content)
+                if headers is None:
+                    headers= req.headers
+                    print(headers)
+                audio_bytes = BytesIO(req.content)
+                if CACHE_DIR is not None:
+                    Path(os.path.join(CACHE_DIR,md5)).write_bytes(audio_bytes.getvalue())
 
             print("received ", audio_bytes.getbuffer().nbytes, " bytes")
             audio, samplerate = sf.read(audio_bytes)
@@ -98,6 +112,8 @@ def synthesize_text(text2speech_url, text: str, language: str = "en"):
         print("samplerate:",samplerate)
         print("returning concatenated audio (", out.getbuffer().nbytes, " bytes)")
 
+        if headers is None:
+            headers = {'Content-Type':'audio/wav'}
         return Response(content=out.getvalue(), media_type=headers['Content-Type'])
 
     except Exception as exc:
