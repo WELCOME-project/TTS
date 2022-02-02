@@ -1,7 +1,24 @@
 {
     "text2speech": {
-        "ext": "https://welcome-project.upf.edu/tts-en",
-        "en": "http://mozilla-tts-en.p.taln.ml/api/tts",
-        "ing": "http://ingenious-text2speech.p.taln.ml/text2speech"
+        "ext": {
+			"url": "https://welcome-project.upf.edu/tts-en",
+			"params": {}
+		},
+        "en_mozilla": {
+			"url": "http://mozilla-tts-en.p.taln.ml/api/tts",
+			"params": {}
+		},
+        "ing": {
+			"url": "http://ingenious-text2speech.p.taln.ml/text2speech",
+			"params": {}
+		},
+		"en_female": {
+			"url": "http://localhost:5500",
+			"params": {"voice": "festival:cmu_us_slt_arctic_hts"}
+		},
+		"en_male": {
+			"url": "http://localhost:5500",
+			"params": {"voice": "festival:en1_mbrola"}
+		}
     }
 }

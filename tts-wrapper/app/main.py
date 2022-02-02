@@ -57,15 +57,15 @@ async def available_languages(request: Request):
 
 @app.post("/text2speech")
 async def synthesize_text_post(request: Request, text: str = Form(...), language: str = Form("en")):
-    text2speech_url = request.app.state.data["text2speech"].get(language)
-    return synthesize_text(text2speech_url, text, language)
+    text2speech = request.app.state.data["text2speech"].get(language)
+    return synthesize_text(text2speech["url"], text, language, text2speech["params"])
 
 @app.get("/text2speech")
 async def synthesize_text_get(request: Request, text: str, language: str = "en"):
-    text2speech_url = request.app.state.data["text2speech"].get(language)
-    return synthesize_text(text2speech_url, text, language)
+    text2speech = request.app.state.data["text2speech"].get(language)
+    return synthesize_text(text2speech["url"], text, language, text2speech["params"])
 
-def synthesize_text(text2speech_url, text: str, language: str = "en"):
+def synthesize_text(text2speech_url, text: str, language: str = "en", params = None):
 
     print("=======\nstarting to synthesize:")
     print(text)
@@ -87,15 +87,12 @@ def synthesize_text(text2speech_url, text: str, language: str = "en"):
             if CACHE_DIR is not None and os.path.isfile(os.path.join(CACHE_DIR,md5)):
                 audio_bytes = BytesIO(Path(os.path.join(CACHE_DIR,md5)).read_bytes())
             else:
-                req = requests.get(text2speech_url, params={"text": chunk})
-                if req.status_code != 200:
-                    raise Exception(f"Error thrown by the component ({req.status_code})! Chunk: {chunk}")
-                print("got response from TTS")
-
+                params["text"] = chunk
+                result = sendRequest(text2speech_url, params)
                 if headers is None:
-                    headers= req.headers
+                    headers= result.headers
                     print(headers)
-                audio_bytes = BytesIO(req.content)
+                audio_bytes = BytesIO(result.content)
                 if CACHE_DIR is not None:
                     Path(os.path.join(CACHE_DIR,md5)).write_bytes(audio_bytes.getvalue())
 
@@ -118,6 +115,25 @@ def synthesize_text(text2speech_url, text: str, language: str = "en"):
 
     except Exception as exc:
         manage_exception("Synthesis", exc)
+        
+def sendRequest(url, params):       
+    req = requests.get(url, params)
+    if req.status_code != 200:
+        raise Exception(f"Error thrown by the component ({req.status_code})! Chunk: {params[text]}")
+    print("got response from TTS")
+
+    return req
+    
+def test(url, strParams):
+    print("URL: " + url)
+    print("Parameters: " + strParams)
+    params = json.loads(strParams)
+    result = sendRequest(url, params)
+    audio_bytes = BytesIO(result.content)
+    print("received ", audio_bytes.getbuffer().nbytes, " bytes")
+    audio, samplerate = sf.read(audio_bytes)
+    print("samplerate:",samplerate)
+    sf.write("./testAudio.wav", audio, samplerate=samplerate, format="wav")
 
 if __name__ == "__main__":
     import uvicorn
