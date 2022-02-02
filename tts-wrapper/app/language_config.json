@@ -12,12 +12,16 @@
 			"url": "http://ingenious-text2speech.p.taln.ml/text2speech",
 			"params": {}
 		},
+		"en": {
+			"url": "http://opentts.p.taln.ml",
+			"params": {"voice": "festival:cmu_us_slt_arctic_hts"}
+		},
 		"en_female": {
-			"url": "http://localhost:5500",
+			"url": "http://opentts.p.taln.ml",
 			"params": {"voice": "festival:cmu_us_slt_arctic_hts"}
 		},
 		"en_male": {
-			"url": "http://localhost:5500",
+			"url": "http://opentts.p.taln.ml",
 			"params": {"voice": "festival:en1_mbrola"}
 		}
     }
