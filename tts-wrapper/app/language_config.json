@@ -13,15 +13,15 @@
 			"params": {}
 		},
 		"en": {
-			"url": "http://opentts.p.taln.ml",
+			"url": "http://opentts.p.taln.ml/api/tts",
 			"params": {"voice": "festival:cmu_us_slt_arctic_hts"}
 		},
 		"en_female": {
-			"url": "http://opentts.p.taln.ml",
+			"url": "http://opentts.p.taln.ml/api/tts",
 			"params": {"voice": "festival:cmu_us_slt_arctic_hts"}
 		},
 		"en_male": {
-			"url": "http://opentts.p.taln.ml",
+			"url": "http://opentts.p.taln.ml/api/tts",
 			"params": {"voice": "festival:en1_mbrola"}
 		}
     }
