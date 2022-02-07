@@ -1,28 +1,92 @@
 {
     "text2speech": {
-        "ext": {
-			"url": "https://welcome-project.upf.edu/tts-en",
-			"params": {}
-		},
-        "en_mozilla": {
+        "en": {
 			"url": "http://mozilla-tts-en.p.taln.ml/api/tts",
 			"params": {}
 		},
-        "ing": {
-			"url": "http://ingenious-text2speech.p.taln.ml/text2speech",
+        "en_female": {
+			"url": "http://mozilla-tts-en.p.taln.ml/api/tts",
 			"params": {}
-		},
-		"en": {
-			"url": "http://opentts.p.taln.ml/api/tts",
-			"params": {"voice": "festival:cmu_us_slt_arctic_hts"}
-		},
-		"en_female": {
-			"url": "http://opentts.p.taln.ml/api/tts",
-			"params": {"voice": "festival:cmu_us_slt_arctic_hts"}
 		},
 		"en_male": {
 			"url": "http://opentts.p.taln.ml/api/tts",
-			"params": {"voice": "festival:en1_mbrola"}
+			"params": {"voice": "larynx:cmu_jmk-glow_tts"}
+		},
+		"en-uk_female": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "marytts:dfki-prudence-hsmm"}
+		},
+		"en-uk_male": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "marytts:dfki-spike-hsmm"}
+		},
+		"ca": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "festival:upc_ca_ona_hts"},
+			"comment": "should be Collectiva-t"
+		},
+		"ca_female": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "festival:upc_ca_ona_hts"}
+		},
+		"ca_male": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "espeak:ca"}
+		},
+		"de": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "larynx:pavoque_glow_tts"},
+			"comment": "should be MozillaTTS"
+		},
+		"de_female": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "larynx:kerstin-glow_tts"}
+		},
+		"de_male": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "larynx:pavoque_glow_tts"}
+		},
+		"el": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "glow-speak:el_rapunzelina"}
+		},
+		"el_female": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "glow-speak:el_rapunzelina"}
+		},
+		"el_male": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "espeak:el"}
+		},
+		"ar": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "festival:ara_norm_ziad_hts"}
+		},
+		"es": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "larynx:karen_savage-glow_tts"},
+			"comment": "should be MozillaTTS"
+		},
+		"es_female": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "larynx:karen_savage-glow_tts"}
+		},
+		"es_male": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "glow-speak:es_tux"}
+		},
+		"fr": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "glow-speak:fr_siwis"},
+			"comment":"should be MozillaTTS"
+		},
+		"fr_female": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "glow-speak:fr_siwis"}
+		},
+		"fr_male": {
+			"url": "http://opentts.p.taln.ml/api/tts",
+			"params": {"voice": "larynx:gilles_le_blanc-glow_tts"}
 		}
     }
 }
