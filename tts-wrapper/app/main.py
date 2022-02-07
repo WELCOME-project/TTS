@@ -70,7 +70,7 @@ def synthesize_text(text2speech_url, text: str, language: str = "en", params = N
     print("=======\nstarting to synthesize:")
     print(text)
     try:
-        print("language:", language, "\turl;",text2speech_url)
+        print("language:", language, "\turl:",text2speech_url)
         if text2speech_url is None:
             raise Exception(f"Text2Speech: Language '{language}' not supported!")
 
@@ -116,7 +116,8 @@ def synthesize_text(text2speech_url, text: str, language: str = "en", params = N
     except Exception as exc:
         manage_exception("Synthesis", exc)
         
-def sendRequest(url, params):       
+def sendRequest(url, params):
+    print("sendRequest: sending request to ", url, " with params", params)
     req = requests.get(url, params)
     if req.status_code != 200:
         raise Exception(f"Error thrown by the component ({req.status_code})! Chunk: {params[text]}")
