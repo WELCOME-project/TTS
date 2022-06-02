@@ -65,6 +65,15 @@ async def synthesize_text_get(request: Request, text: str, language: str = "en")
     text2speech = request.app.state.data["text2speech"].get(language)
     return synthesize_text(text2speech["url"], text, language, text2speech["params"])
 
+def preprocess(chunk,language):
+    if (language == 'el_male'):
+        if (chunk != chunk.rstrip('.')):
+            chunk = chunk.rstrip('.')
+            print("normalized chunk:")
+            print(chunk)
+    return chunk
+
+
 def synthesize_text(text2speech_url, text: str, language: str = "en", params = None):
 
     print("=======\nstarting to synthesize:")
@@ -82,6 +91,7 @@ def synthesize_text(text2speech_url, text: str, language: str = "en", params = N
         for chunk in chunks:
             print("chunk:")
             print(chunk)
+            chunk = preprocess(chunk,language)
             md5 = hashlib.md5((language+":"+chunk).encode('utf-8')).hexdigest()
             audio_bytes = None
             if CACHE_DIR is not None and os.path.isfile(os.path.join(CACHE_DIR,md5)):
