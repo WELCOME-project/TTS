@@ -8,3 +8,9 @@ venv/
 *.tar.gz
 
 models/
+
+google-tts/bin/
+google-tts/lib/
+google-tts/lib64
+google-tts/etc/
+google-tts/share/

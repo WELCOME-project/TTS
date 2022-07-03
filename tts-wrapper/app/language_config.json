@@ -47,12 +47,12 @@
 			"params": {"voice": "larynx:pavoque-glow_tts"}
 		},
 		"el": {
-			"url": "http://opentts.p.grivolla.net/api/tts",
-			"params": {"voice": "glow-speak:el_rapunzelina"}
+			"url": "http://google-tts.p.grivolla.net/text2speech",
+			"params": {"language_code":"el-GR","ssml_gender":"FEMALE"}
 		},
 		"el_female": {
-			"url": "http://opentts.p.grivolla.net/api/tts",
-			"params": {"voice": "glow-speak:el_rapunzelina"}
+			"url": "http://google-tts.p.grivolla.net/text2speech",
+			"params": {"language_code":"el-GR","ssml_gender":"FEMALE"}
 		},
 		"el_male": {
 			"url": "http://opentts.p.grivolla.net/api/tts",

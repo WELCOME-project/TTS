@@ -1,0 +1,50 @@
+#NOTE: this stack is currently in the https://gitlab.com/talnupf/welcome/tts repo
+version: '3.2'
+services:
+  mozilla-tts-en:
+    image: synesthesiam/mozillatts:en
+    networks:
+      - traefik
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "8"
+          memory: 4GB
+      labels:
+        - "traefik.frontend.rule=Host:mozilla-tts-en.${DOMAIN}"
+        - "traefik.port=5002"
+        - "traefik.enable=true"
+  opentts-all:
+    image: synesthesiam/opentts:all
+    networks:
+      - traefik
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "8"
+          memory: 8GB
+      labels:
+        - "traefik.frontend.rule=Host:opentts.${DOMAIN}"
+        - "traefik.port=5500"
+        - "traefik.enable=true"
+  google-tts-all:
+    image: maven-taln.upf.edu/google-tts-wrapper:2022-06-28
+    networks:
+      - traefik
+    environment:
+      - 'GOOGLE_APPLICATION_CREDENTIALS'='taln-tts-36120d1f2d87.json'
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "8"
+          memory: 8GB
+      labels:
+        - "traefik.frontend.rule=Host:google-tts.${DOMAIN}"
+        - "traefik.port=8000"
+        - "traefik.enable=true"
+networks:
+  traefik:
+    external: true
