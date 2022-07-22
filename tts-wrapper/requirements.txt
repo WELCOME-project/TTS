@@ -5,3 +5,4 @@ python-multipart==0.0.5
 requests==2.23.0
 soundfile
 numpy
+iso639-lang

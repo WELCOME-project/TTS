@@ -6,6 +6,7 @@ import soundfile as sf
 import numpy as np
 import hashlib
 import os
+import language_utils
 
 from pathlib import Path
 from starlette.responses import StreamingResponse
@@ -57,13 +58,15 @@ async def available_languages(request: Request):
 
 @app.post("/text2speech")
 async def synthesize_text_post(request: Request, text: str = Form(...), language: str = Form("en")):
-    text2speech = request.app.state.data["text2speech"].get(language)
-    return synthesize_text(text2speech["url"], text, language, text2speech["params"])
+    lang = language_utils.convert_language_config_key(language)
+    text2speech = request.app.state.data["text2speech"].get(lang)
+    return synthesize_text(text2speech["url"], text, lang, text2speech["params"])
 
 @app.get("/text2speech")
 async def synthesize_text_get(request: Request, text: str, language: str = "en"):
-    text2speech = request.app.state.data["text2speech"].get(language)
-    return synthesize_text(text2speech["url"], text, language, text2speech["params"])
+    lang = language_utils.convert_language_config_key(language)
+    text2speech = request.app.state.data["text2speech"].get(lang)
+    return synthesize_text(text2speech["url"], text, lang, text2speech["params"])
 
 def preprocess(chunk,language):
     if (language == 'el_male'):
