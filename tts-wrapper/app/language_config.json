@@ -21,13 +21,13 @@
 			"params": {"voice": "marytts:dfki-spike-hsmm"}
 		},
 		"ca": {
-			"url": "http://opentts.p.grivolla.net/api/tts",
-			"params": {"voice": "festival:upc_ca_ona_hts"},
-			"comment": "should be Collectiva-t"
+			"url": "http://google-tts.p.grivolla.net/text2speech",
+			"params": {"language_code":"ca-ES","ssml_gender":"FEMALE"},
+			"comment": "should maybe be Collectiva-t"
 		},
 		"ca_female": {
-			"url": "http://opentts.p.grivolla.net/api/tts",
-			"params": {"voice": "festival:upc_ca_ona_hts"}
+			"url": "http://google-tts.p.grivolla.net/text2speech",
+			"params": {"language_code":"ca-ES","ssml_gender":"FEMALE"}
 		},
 		"ca_male": {
 			"url": "http://opentts.p.grivolla.net/api/tts",
