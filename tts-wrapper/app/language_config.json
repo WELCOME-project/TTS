@@ -21,13 +21,13 @@
 			"params": {"voice": "marytts:dfki-spike-hsmm"}
 		},
 		"ca": {
-			"url": "http://google-tts.p.grivolla.net/text2speech",
-			"params": {"language_code":"ca-ES","ssml_gender":"FEMALE"},
-			"comment": "should maybe be Collectiva-t"
+			"url": "http://opentts.p.grivolla.net/api/tts",
+			"params": {"voice": "festival:upc_ca_ona_hts"},
+			"comment": "should be Collectiva-t"
 		},
 		"ca_female": {
-			"url": "http://google-tts.p.grivolla.net/text2speech",
-			"params": {"language_code":"ca-ES","ssml_gender":"FEMALE"}
+			"url": "http://opentts.p.grivolla.net/api/tts",
+			"params": {"voice": "festival:upc_ca_ona_hts"}
 		},
 		"ca_male": {
 			"url": "http://opentts.p.grivolla.net/api/tts",
@@ -47,13 +47,15 @@
 			"params": {"voice": "larynx:pavoque-glow_tts"}
 		},
 		"el": {
-			"url": "http://google-tts.p.grivolla.net/text2speech",
-			"params": {"language_code":"el-GR","ssml_gender":"FEMALE"}
-		},
+			//"url": "http://google-tts.p.grivolla.net/text2speech",
+			//"params": {"language_code":"el-GR","ssml_gender":"FEMALE"}
+			"url": "http://opentts.p.grivolla.net/api/tts",
+			"params": {"voice": "glow-speak:el_rapunzelina"}		},
 		"el_female": {
-			"url": "http://google-tts.p.grivolla.net/text2speech",
-			"params": {"language_code":"el-GR","ssml_gender":"FEMALE"}
-		},
+			//"url": "http://google-tts.p.grivolla.net/text2speech",
+			//"params": {"language_code":"el-GR","ssml_gender":"FEMALE"}
+			"url": "http://opentts.p.grivolla.net/api/tts",
+			"params": {"voice": "glow-speak:el_rapunzelina"}		},
 		"el_male": {
 			"url": "http://opentts.p.grivolla.net/api/tts",
 			"params": {"voice": "espeak:el"}
