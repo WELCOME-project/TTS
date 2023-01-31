@@ -72,8 +72,8 @@
 			"params": {"voice": "larynx:karen_savage-glow_tts"}
 		},
 		"es_male": {
-			"url": "http://opentts.p.grivolla.net/api/tts",
-			"params": {"voice": "glow-speak:es_tux"}
+			"url": "http://google-tts.p.grivolla.net/text2speech",
+			"params": {"language_code":"es-ES","ssml_gender":"MALE"}
 		},
 		"fr": {
 			"url": "http://opentts.p.grivolla.net/api/tts",
