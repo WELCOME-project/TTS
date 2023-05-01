@@ -1,23 +1,78 @@
-DOCKERFILE
-----------
-The docker image is built with Python3.6 and Tacotron2 and MelGAN projects cloned from Git repository. The requirements file is located in the Tacotron2 project directory. But torch (1.3.1+cu92) and torchvision (0.4.2+cu92) are installed before, because I specify the URL where to download it. I made it this way to install both versions with CUDA support (9.2 version). 
+# TTS - Text to Speech
 
+## Introduction
 
-BUILD AND RUN INSTRUCTIONS
---------------------------
-- How to buil and run this dockerfile from terminal:
+The software in this repository serves to provide Text-to-speech services. The TTS software consists of 2 submodules included here, the TTS wrapper (`tts-wrapper`) used to direct incoming requests to different underlying TTS services and voices, and an abstraction layer over Google TTS (`google-tts`) which makes it usable through the TTS wrapper (alongside other TTS systems. These submodules are publicly available on GitHub at https://github.com/WELCOME-project/TTS.
 
-(Step 0: Download the models from [here](https://github.com/rcarlini-upf/ingenious/releases/download/v0.0.1-prealpha/text2speech.resources.tar.gz) )
+## Installation, Deployment, and Execution
 
-With docker-compose:  
-1) Run `docker-compose build text2speech`  
-2) Run `docker-compose up text2speech` (it expects to have a directory models inside this project directory)
-3) You'll find the synthesizer in this [url](http://localhost:4300/text2speech?text=This%20is%20the%20url%20of%20the%20synthesizer)
+### Installation and Deployment
 
-With docker:
-1) Build the image: `docker build -t text2speech .`  
-2) Run `docker run --name tts_test --rm -p 4000:80 -v ./models:/models text2speech`  
-3) You'll find the synthesizer in this [url](http://localhost:4000/text2speech?text=This%20is%20the%20url%20of%20the%20synthesizer)
+#### Software Requirements
 
-- If you want to access the root once run  `docker exec -it tts_test /bin/bash`
+The WELCOME TTS installation requires the use of Docker and Docker Compose. Docker is used to package TTS as an image that can be run in a container. The `.yml` configuration file and Docker Compose are used to instantiate Docker images as containers. The `.yml` file specifies the virtual network details and other necessary configurations.
 
+#### Hardware Requirements
+
+The TTS wrapper image requires approximately of 100 MB of memory to run. It can utilize multiple threads, so having several CPU cores available is preferred. In the example configuration provided below, up to 4 CPU cores are used.
+
+#### Deployment
+
+The configuration of the tts-wrapper deployment is specified in the `.yml` file. One can use an existing image by specifying its name and tag in the `.yml` file to run the `tts-wrapper` container. The procedure is identical for the `google-tts` container
+
+To create the image from scratch, access the project directory and run the command:
+```
+docker build -f Dockerfile -t name_of_the_image:tag .
+```
+Then upload it to a Maven repository with the command:
+```
+docker push name_of_the_image:tag
+```
+Use this image inside the `.yml` file.
+
+The `tts-wrapper` needs to be configured to point to the correct TTS service for each language code, which is done in `tts-wrapper/app/language_config.json`. The provided example points to non-public URLs for these services and would therefore need to be adjusted accordingly.
+
+The `google-tts` container requires credentials to access Google's TTS services, which need to be provided in a file which is referenced by the `OOGLE_APPLICATION_CREDENTIALS` variable. This file can e.g. be provided via a bind mount or similar mechanism.
+
+#### Example `compose.yml` for Deployment
+
+Here is an example `compose.yml` file that can be used for deployment, which includes the tts-wrapper and google-tts services. Adjust the image tag and port mapping as required:
+
+```
+version: '3.2'
+services:
+  tts-wrapper:
+    image: maven-taln.upf.edu/welcome/tts-wrapper:2023-03-28
+    volumes:
+      - /resources/projects/welcome/tts_cache:/cache
+    environment: 
+      - CACHE_DIR=/cache/
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+            cpus: "4"
+            memory: 1GB
+    ports:
+      - "8001:80"
+  google-tts:
+    image: maven-taln.upf.edu/google-tts:2022-06-30
+    volumes:
+      - /resources/projects/welcome/google-credentials.json:/google-credentials.json
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/google-credentials.json
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "4"
+          memory: 1GB      
+      ports:
+        - "8002:80"
+```
+
+### Execution
+
+The deployed TTS component can run in the cloud infrastructure of the installed WELCOME platform or be deployed externally. Make the corresponding adjustments in the dispatcher configuration to point to the appropriate service URL.
+
+The service is accessible through a REST-like API at `http://<base_url>/` where `<base_url>` corresponds to the location of the deployment. For example, `http://tts-wrapper:80/` or `https://welcome-project.upf.edu/tts-wrapper/` (with a corresponding proxy configuration). Swagger documentation is available at that endpoint. The `google-tts` service does not need to be exposed directly as it can be accessed through the `tts-wrapper` according to the language configuration.
